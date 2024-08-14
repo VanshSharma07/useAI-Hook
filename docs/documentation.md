@@ -162,43 +162,7 @@ const CustomAIComponent = () => {
 export default CustomAIComponent;
 
 
-## Parameters
 
-- **service**: The AI service to use. Options include:
-  - `'openai'` for OpenAI API
-  - `'huggingface'` for Hugging Face models
-  - `'cohere'` for Cohere API
-  - `'deepai'` for DeepAI API
-  - `'google-gemini'` for Google Gemini API
-  - `'custom'` for custom endpoints
-  - `'provider'` for custom providers
-
-- **config**: Configuration object for the AI service:
-  - **apiKey**: Your API key for the AI service.
-  - **model** (optional): The specific model to use (e.g., `'text-davinci-003'` for OpenAI).
-  - **options** (optional): Additional options for the API request.
-  - **endpoint**: (optional, for custom services) Custom endpoint to override the default.
-
-- **prompt**: The input text or prompt to send to the AI service.
-
-- **customProvider**: (optional, for custom providers) Function to handle API calls for custom providers.
-
-## Returns
-
-- **response**: Object containing the result of the API call:
-  - **data**: The response data from the AI service.
-  - **error**: Any error message if the request fails.
-  - **loading**: Boolean indicating if the request is in progress.
-
-- **callAIService**: Function to trigger the API call with the current configuration.
-
-## Contributing
-
-We welcome contributions to enhance the functionality and support more AI services. Please follow the contributing guidelines in the `CONTRIBUTING.md` file.
-
-## License
-
-This project is licensed under the MIT License. See the `LICENSE` file for details.
 
 
 
