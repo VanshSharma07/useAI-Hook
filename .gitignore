@@ -1,0 +1,63 @@
+# Node modules
+node_modules/
+
+# Build output
+dist/
+build/
+
+# TypeScript build information
+*.tsbuildinfo
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Log files
+*.log
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# IDE and editor directories and files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+
+# npm and Yarn
+package-lock.json
+.yarn/
+
+# Yarn Plug'n'Play files
+.pnp.*
+.pnp.js
+
+# Dependency directories
+jspm_packages/
+
+# Other files
+*.tgz
+*.gz
+*.zip
+*.tar
+*.rar
+*.7z
+*.tar.gz
+*.tar.bz2
+
+# Next.js build output (if applicable)
+.next/
+out/
+
+# Build artifacts
+*.js
+*.jsx
+*.mjs
+*.cjs
+*.map
+*.d.ts
