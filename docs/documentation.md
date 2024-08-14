@@ -65,5 +65,44 @@ const AIComponent = () => {
 
 export default AIComponent;
 
+## TypeScript Example
+
+```typescript
+import React, { useState } from 'react';
+import useAI from 'useai-hook';
+
+const AIComponent: React.FC = () => {
+  const [prompt, setPrompt] = useState<string>('');
+  const { response, callAIService } = useAI({
+    service: 'openai',
+    config: {
+      apiKey: 'your-openai-api-key',
+      model: 'text-davinci-003',
+    },
+    prompt: 'What is the meaning of life?',
+  });
+
+  const handleSubmit = () => {
+    callAIService();
+  };
+
+  return (
+    <div>
+      <input
+        type="text"
+        value={prompt}
+        onChange={(e) => setPrompt(e.target.value)}
+        placeholder="Enter your prompt"
+      />
+      <button onClick={handleSubmit}>Submit</button>
+      {response.loading && <p>Loading...</p>}
+      {response.error && <p>Error: {response.error}</p>}
+      {response.data && <p>AI Response: {JSON.stringify(response.data)}</p>}
+    </div>
+  );
+};
+
+export default AIComponent;
+
 
 
