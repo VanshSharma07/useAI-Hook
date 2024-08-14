@@ -14,3 +14,5 @@ Install the hook via npm:
 
 ```bash
 npm install useai-hook
+# or
+yarn add useai-hook
