@@ -1,28 +1,27 @@
 {
-    "name": "useai-hook",
-    "version": "1.0.0",
-    "description": "A React hook for integrating AI services easily.",
-    "main": "dist/index.js",
-    "types": "dist/index.d.ts",
-    "scripts": {
-      "build": "tsc",
-      "prepare": "npm run build",
-      "prepublishOnly": "npm run build"
-    },
-    "dependencies": {
-      "react": "^18.0.0"
-    },
-    "devDependencies": {
-      "typescript": "^4.0.0",
-      "@types/react": "^18.0.0"
-    },
-    "keywords": [
-      "react",
-      "hook",
-      "ai",
-      "integration"
-    ],
-    "author": "Vansh Bargotra",
-    "license": "MIT"
-  }
-  
+  "name": "useai-hook",
+  "version": "1.1.0",
+  "description": "A React hook for integrating AI services easily.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "react": "^18.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^4.0.0",
+    "@types/react": "^18.0.0"
+  },
+  "keywords": [
+    "react",
+    "hook",
+    "ai",
+    "integration"
+  ],
+  "author": "Vansh Bargotra",
+  "license": "MIT"
+}

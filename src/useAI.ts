@@ -1,10 +1,10 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 
 interface AIServiceConfig {
   apiKey: string;
   model?: string;
   options?: object;
-  endpoint?: string; // Add this line to include endpoint in the configuration
+  endpoint?: string;
 }
 
 interface UseAIOptions {
@@ -29,10 +29,30 @@ const serviceEndpoints: { [key: string]: (config: AIServiceConfig) => string } =
   custom: ({ endpoint }) => endpoint || '',
 };
 
+// Debounce Hook to prevent too many requests being made in a short time
+const useDebounce = (value: string, delay: number) => {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [value, delay]);
+
+  return debouncedValue;
+};
+
 const useAI = ({ service, config, endpoint, prompt }: UseAIOptions) => {
   const [response, setResponse] = useState<AIResponse>({ data: null, error: null, loading: false });
+  const debouncedPrompt = useDebounce(prompt, 500); // Adjust the delay as needed
 
   const callAIService = useCallback(async () => {
+    const controller = new AbortController();
+    const signal = controller.signal;
     setResponse({ data: null, error: null, loading: true });
 
     const url = endpoint || serviceEndpoints[service](config);
@@ -43,22 +63,23 @@ const useAI = ({ service, config, endpoint, prompt }: UseAIOptions) => {
 
     const payload =
       service === 'openai'
-        ? { model: config.model || 'text-davinci-003', prompt, ...config.options }
+        ? { model: config.model || 'text-davinci-003', prompt: debouncedPrompt, ...config.options }
         : service === 'huggingface'
-        ? { inputs: prompt, ...config.options }
+        ? { inputs: debouncedPrompt, ...config.options }
         : service === 'cohere'
-        ? { model: config.model || 'medium', prompt, ...config.options }
+        ? { model: config.model || 'medium', prompt: debouncedPrompt, ...config.options }
         : service === 'deepai'
-        ? { text: prompt, ...config.options }
+        ? { text: debouncedPrompt, ...config.options }
         : service === 'google-gemini'
-        ? { prompt, ...config.options }
-        : { prompt, ...config.options };
+        ? { prompt: debouncedPrompt, ...config.options }
+        : { prompt: debouncedPrompt, ...config.options };
 
     try {
       const res = await fetch(url, {
         method: 'POST',
         headers,
         body: JSON.stringify(payload),
+        signal,
       });
 
       if (!res.ok) {
@@ -68,9 +89,19 @@ const useAI = ({ service, config, endpoint, prompt }: UseAIOptions) => {
       const result = await res.json();
       setResponse({ data: result, error: null, loading: false });
     } catch (error: any) {
-      setResponse({ data: null, error: error.message, loading: false });
+      if (error.name !== 'AbortError') {
+        setResponse({ data: null, error: error.message, loading: false });
+      }
     }
-  }, [service, config, endpoint, prompt]);
+
+    return () => controller.abort();
+  }, [service, config, endpoint, debouncedPrompt]);
+
+  useEffect(() => {
+    if (debouncedPrompt) {
+      callAIService();
+    }
+  }, [debouncedPrompt, callAIService]);
 
   return { response, callAIService };
 };
