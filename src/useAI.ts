@@ -94,7 +94,6 @@ const useAI = ({ service, config, endpoint, prompt }: UseAIOptions) => {
       }
     }
 
-    return () => controller.abort();
   }, [service, config, endpoint, debouncedPrompt]);
 
   useEffect(() => {
